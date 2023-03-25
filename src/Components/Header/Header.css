@@ -1,0 +1,66 @@
+.header {
+  margin-top: 20px;
+  height: 70px;
+  width: auto;
+  border-radius: 30px;
+  background-color: #bc485b;
+}
+.header-text {
+  display: flex;
+  margin-left: 30px;
+  padding: 2% 0%;
+  color: white;
+  font-weight: 600;
+}
+.business {
+  margin-left: 30px;
+}
+.commitment {
+  margin-left: 30px;
+}
+.header-city {
+  margin-left: 15%;
+  margin-top: 20px;
+  height: 120px;
+  width: 70%;
+  border-radius: 40px;
+  background-color: #81007f;
+}
+.header-city h3 {
+  font-family: "Shantell Sans", cursive;
+  font-weight: bold;
+}
+.city {
+  display: flex;
+  justify-content: center;
+  color: #f26783;
+  padding: 1% 0%;
+}
+.city-link {
+  display: flex;
+  justify-content: center;
+}
+.city-link-btn {
+  color: #ffdf00;
+  background-color: #b658cf;
+  margin-left: 10px;
+}
+
+@media (max-width: 576px) {
+  .header-text {
+    display: flex;
+    margin-left: 30px;
+    padding: 8% 0%;
+    color: white;
+    font-size: 7px;
+    font-weight: 600;
+  }
+  .header-city {
+    margin-left: 6%;
+    margin-top: 20px;
+    height: 120px;
+    width: 90%;
+    border-radius: 40px;
+    background-color: #81007f;
+  }
+}

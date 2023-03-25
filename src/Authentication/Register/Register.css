@@ -1,0 +1,12 @@
+.register-card {
+  margin-top: 100px;
+  height: 500px;
+  width: 400px;
+  background-color: #323c3d;
+}
+
+@media (max-width: 576px) {
+  .auth {
+    padding: 0% 2%;
+  }
+}

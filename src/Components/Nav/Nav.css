@@ -1,0 +1,13 @@
+.nav {
+  height: auto;
+  width: auto;
+  background-color: #000000;
+  font-family: "Shantell Sans", cursive;
+}
+.nav h3 {
+  color: #bc485b;
+}
+.nav h5 {
+  color: #bc485b;
+  margin-bottom: 10px;
+}
