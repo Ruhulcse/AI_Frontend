@@ -13,10 +13,13 @@ import { URL, token } from "../../utilities/config";
 import Spinner from "../../images/generate.gif";
 import "./Home.css";
 
-const baseURL = `https://ai-backend-2p82.onrender.com/`;
+const baseURL = `http://127.0.0.1:4000/`;
 const Home = () => {
   const [content, setContent] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [downloading, setdownloading] = useState(false);
+  const [code,setCode]= useState("");
+  const [errormsg, setErrormsg] = useState("")
   const getContent = () => {
     axios
       .get(baseURL + "api/content", {
@@ -52,6 +55,8 @@ const Home = () => {
 
   const downloadContent = (params) => {
     console.log("code is ", params)
+    setCode(params)
+    setdownloading(true)
     axios
       .post(
         baseURL + "api/content/download",
@@ -64,24 +69,36 @@ const Home = () => {
       )
       .then((response) => {
         console.log("response data ", response.data.data)
+        setdownloading(false)
         window.open(baseURL + response.data.data, "_blank");
-      });
+      }).catch(function(error) {
+        setdownloading(false)
+        // Handle error
+      });;
   };
 
   const handleFileUpload = (event) => {
     const formData = new FormData();
+    console.log("upload frontend");
     setUploading(true);
     formData.append("file", event.target.files[0]);
+    console.log("token is ", token)
     axios
-      .post(URL + "api/content/upload", formData, {
+      .post(baseURL + "api/content/upload", formData, {
         headers: {
           "content-type": "multipart/form-data",
           Authorization: token,
         },
       })
       .then((response) => {
+        console.log("this is repsone", response)
         setUploading(false);
         getContent();
+      }).catch((e) => {
+        setUploading(false);
+        console.log(e);
+        setErrormsg("content upload failed due to chatgpt api issue or internal server error")
+        console.error(e.message); // "oh, no!"
       });
   };
 
@@ -222,6 +239,9 @@ const Home = () => {
         </div>
 
         <p>Latest 10 file.....</p>
+      
+        {downloading&&<p style={{color: "red"}}>one of your file downloading....</p>}
+        {errormsg.length>2&&<h3 style={{color: "red"}}>{errormsg}</h3>}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
