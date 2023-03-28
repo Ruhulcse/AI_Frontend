@@ -13,7 +13,7 @@ import { URL, token } from "../../utilities/config";
 import Spinner from "../../images/generate.gif";
 import "./Home.css";
 
-const baseURL = `http://127.0.0.1:4000/`;
+const baseURL = `https://ai-backend-2p82.onrender.com/`;
 const Home = () => {
   const [content, setContent] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -82,7 +82,6 @@ const Home = () => {
     console.log("upload frontend");
     setUploading(true);
     formData.append("file", event.target.files[0]);
-    console.log("token is ", token)
     axios
       .post(baseURL + "api/content/upload", formData, {
         headers: {
