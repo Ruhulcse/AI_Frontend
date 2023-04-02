@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom";
 import "./Login.css";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-// import CircularProgress from '@material-ui/core/CircularProgress';
 import { URL } from '../../utilities/config';
 const Login = () => {
   const [email, setEmail] = useState("");
