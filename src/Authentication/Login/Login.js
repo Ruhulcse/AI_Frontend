@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom";
 import "./Login.css";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-// import CircularProgress from '@material-ui/core/CircularProgress';
 import { URL } from '../../utilities/config';
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -42,11 +40,11 @@ const Login = () => {
       <div className="container d-flex justify-content-center">
         <div className="card login-card">
           <div className="card-body">
-            <div className="d-flex justify-content-center">
+            {/* <div className="d-flex justify-content-center">
               <h5 className="card-title login-text">Login</h5>
-            </div>
+            </div> */}
             <form onSubmit={submitHandler}>
-              <h2 className="text-center">Data Workspace</h2>
+            <h2 className="text-center">AI Content Generator</h2>
 
               <h5 className="d-flex justify-content-center">
                 {loading ? (
@@ -100,10 +98,10 @@ const Login = () => {
                   Login
                 </button>
               </div>
-              <p className="mt-4 d-flex justify-content-center register-rqst">
+              {/* <p className="mt-4 d-flex justify-content-center register-rqst">
                 <span style={{ color: "#ffff" }}>New user?</span>{" "}
                 <Link to={"/register"}>Please Register</Link>{" "}
-              </p>
+              </p> */}
             </form>
           </div>
         </div>

@@ -11,20 +11,23 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { URL, token } from "../../utilities/config";
 import Spinner from "../../images/generate.gif";
+import io from "socket.io-client";
+
 import "./Home.css";
 
-// const baseURL = `https://ai-bakend.onrender.com/`;
+// const URL = `https://ai-backend-2p82.onrender.com/`;
+const socket = io(URL, { autoConnect: true }); // Replace with your server URL
 
-const baseURL = `http://127.0.0.1:4000/`;
+// const URL = `http://127.0.0.1:4000/`;
 const Home = () => {
   const [content, setContent] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [downloading, setdownloading] = useState(false);
-  const [code,setCode]= useState("");
-  const [errormsg, setErrormsg] = useState("")
+  const [errormsg, setErrormsg] = useState("");
+
   const getContent = () => {
     axios
-      .get(baseURL + "api/content", {
+      .get(URL + "api/content", {
         headers: { Authorization: token },
       })
       .then((response) => {
@@ -56,12 +59,10 @@ const Home = () => {
   };
 
   const downloadContent = (params) => {
-    console.log("code is ", params)
-    setCode(params)
-    setdownloading(true)
+    setdownloading(true);
     axios
       .post(
-        baseURL + "api/content/download",
+        URL + "api/content/download",
         {
           content: params,
         },
@@ -70,13 +71,14 @@ const Home = () => {
         }
       )
       .then((response) => {
-        console.log("response data ", response.data.data)
-        setdownloading(false)
-        window.open(baseURL + response.data.data, "_blank");
-      }).catch(function(error) {
-        setdownloading(false)
+        console.log("response data ", response.data.data);
+        setdownloading(false);
+        window.open(URL + response.data.data, "_blank");
+      })
+      .catch(function (error) {
+        setdownloading(false);
         // Handle error
-      });;
+      });
   };
 
   const handleFileUpload = (event) => {
@@ -85,22 +87,31 @@ const Home = () => {
     setUploading(true);
     formData.append("file", event.target.files[0]);
     axios
-      .post(baseURL + "api/content/upload", formData, {
+      .post(URL + "api/content/upload", formData, {
         headers: {
           "content-type": "multipart/form-data",
           Authorization: token,
         },
       })
       .then((response) => {
-        console.log("this is repsone", response)
+        console.log("this is repsone", response);
         setUploading(false);
         getContent();
-      }).catch((e) => {
+      })
+      .catch((e) => {
         setUploading(false);
-        console.log("this is catch block ", e);
-        setErrormsg("content upload failed due to chatgpt api issue or internal server error")
+        console.log(e);
+        setErrormsg(
+          "content upload failed due to chatgpt api issue or internal server error"
+        );
+        console.error(e.message); // "oh, no!"
       });
   };
+
+  socket.on("content-response", (message) => {
+    // console.log("inside", message);
+    alert(message)
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -123,7 +134,7 @@ const Home = () => {
 
   return (
     <div>
-      <div class="header">
+      <div className="header">
         <div className="inner-header flex">
           <svg
             version="1.1"
@@ -214,7 +225,7 @@ const Home = () => {
 
           {uploading ? (
             <>
-              <div style={{ width: "35%",float:"left" }}>
+              <div style={{ width: "35%", float: "left" }}>
                 <img
                   className="profile-user-img img-fluid img-circle"
                   src={Spinner}
@@ -239,9 +250,11 @@ const Home = () => {
         </div>
 
         <p>Latest 10 file.....</p>
-      
-        {downloading&&<p style={{color: "red"}}>one of your file downloading....</p>}
-        {errormsg.length>2&&<h3 style={{color: "red"}}>{errormsg}</h3>}
+
+        {downloading && (
+          <p style={{ color: "red" }}>one of your file downloading....</p>
+        )}
+        {errormsg.length > 2 && <h3 style={{ color: "red" }}>{errormsg}</h3>}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>

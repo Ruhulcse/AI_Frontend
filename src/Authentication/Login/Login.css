@@ -1,6 +1,11 @@
 .auth {
-  background-color: #262626;
+  /* background-color: #262626; */
   height: 100vh;
+  background-image: linear-gradient(
+    60deg,
+    rgba(84, 58, 183, 1) 0%,
+    rgba(0, 172, 193, 1) 100%
+  );
 }
 /* .login {
   height: 100vh;
@@ -12,10 +17,10 @@
 }
 
 .login-card {
-  margin-top: 120px;
+  margin-top: 12%;
   height: 400px;
   width: 400px;
-  background-color: #323c3d;
+  background-color: #4282c8;
 }
 .login-btn {
   font-family: "Kalam", cursive;
