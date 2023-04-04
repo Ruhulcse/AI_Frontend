@@ -13,9 +13,9 @@ import { URL, token } from "../../utilities/config";
 import Spinner from "../../images/generate.gif";
 import "./Home.css";
 
-const baseURL = `https://ai-backend-2p82.onrender.com/`;
+// const baseURL = `https://ai-bakend.onrender.com/`;
 
-// const baseURL = `http://127.0.0.1:4000/`;
+const baseURL = `http://127.0.0.1:4000/`;
 const Home = () => {
   const [content, setContent] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -97,9 +97,8 @@ const Home = () => {
         getContent();
       }).catch((e) => {
         setUploading(false);
-        console.log(e);
+        console.log("this is catch block ", e);
         setErrormsg("content upload failed due to chatgpt api issue or internal server error")
-        console.error(e.message); // "oh, no!"
       });
   };
 

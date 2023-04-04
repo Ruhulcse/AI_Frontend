@@ -1,5 +1,7 @@
-export const URL = "https://ai-backend-2p82.onrender.com";
-//  export const URL = "http://127.0.0.1:4000";
+// export const URL = "https://ai-bakend.onrender.com";
+// export const URL = "https://ai.tenly.net";
+
+ export const URL = "http://127.0.0.1:4000";
 
 export const token = localStorage.getItem("token");
 // const token =
