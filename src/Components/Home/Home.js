@@ -12,6 +12,8 @@ import { styled } from "@mui/material/styles";
 import { URL, token } from "../../utilities/config";
 import Spinner from "../../images/generate.gif";
 import io from "socket.io-client";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./Home.css";
 
@@ -83,8 +85,7 @@ const Home = () => {
 
   const handleFileUpload = (event) => {
     const formData = new FormData();
-    console.log("upload frontend");
-    setUploading(true);
+    setUploading(false);
     formData.append("file", event.target.files[0]);
     axios
       .post(URL + "api/content/upload", formData, {
@@ -94,9 +95,22 @@ const Home = () => {
         },
       })
       .then((response) => {
-        console.log("this is repsone", response);
-        setUploading(false);
+        setUploading(true);
+        toast(response.data.data, {
+          autoClose: 5000,
+          type: "info",
+        });
         getContent();
+
+        socket.removeAllListeners("content-response");
+        socket.on("content-response", (message) => {
+          toast(message.greeting, {
+            autoClose: 5000,
+            type: "success",
+          });
+          setUploading(false);
+          getContent();
+        });
       })
       .catch((e) => {
         setUploading(false);
@@ -107,11 +121,6 @@ const Home = () => {
         console.error(e.message); // "oh, no!"
       });
   };
-
-  socket.on("content-response", (message) => {
-    // console.log("inside", message);
-    alert(message)
-  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -131,7 +140,6 @@ const Home = () => {
       fontWeight: 700,
     },
   }));
-
   return (
     <div>
       <div className="header">
@@ -213,7 +221,7 @@ const Home = () => {
           {uploading ? (
             <>
               <h2 style={{ marginRight: "3%" }}>
-                Please wait your content is genereting....{" "}
+                Server has received your file. it is generating content.....{" "}
               </h2>
             </>
           ) : (
@@ -291,6 +299,7 @@ const Home = () => {
           </Table>
         </TableContainer>
       </div>
+      <ToastContainer />
     </div>
   );
 };
